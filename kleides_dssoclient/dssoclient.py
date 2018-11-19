@@ -19,7 +19,7 @@ class DssoClientEncoder(object):
         """
         Pass secret, nonce and target return URL.
 
-        Get redirect URL by calling get_redirect_url(sso_url).
+        Get redirect URL by calling get_redirect_url(dsso_url).
         """
         assert isinstance(client_to_server_secret, bytes)
         payload = base64.b64encode(
@@ -31,10 +31,10 @@ class DssoClientEncoder(object):
         self._sso = payload.decode('ascii')
         self._sig = sig
 
-    def get_redirect_url(self, sso_url):
-        assert '?' not in sso_url, sso_url
+    def get_redirect_url(self, dsso_url):
+        assert '?' not in dsso_url, dsso_url
         return '{url}?sso={payload}&sig={signature}'.format(
-            url=sso_url, payload=self._sso, signature=self._sig)
+            url=dsso_url, payload=self._sso, signature=self._sig)
 
 
 class DssoClientDecoder(object):

@@ -19,27 +19,27 @@ Example usage:
         DssoLoginBackend that rejects anyone without is_superuser, and that
         sets all mapped variables on the newly created User object.
         """
-        def authenticate(self, sso_mapping):
+        def authenticate(self, dsso_mapping):
             """
             Check that user is a superuser and pass along to DssoLoginBackend.
             """
-            if sso_mapping.get('is_superuser') not in ('True', 'true', '1'):
+            if dsso_mapping.get('is_superuser') not in ('True', 'true', '1'):
                 return None
 
             return super(MyProjectDssoLoginBackend, self).authenticate(
-                sso_mapping)
+                dsso_mapping)
 
-        def configure_user(self, user, sso_mapping):
+        def configure_user(self, user, dsso_mapping):
             """
-            We expect username, email, is_superuser in the sso_mapping.
+            We expect username, email, is_superuser in the dsso_mapping.
             """
             user = (
                 super(MyProjectDssoLoginBackend, self)
-                .configure_user(user, sso_mapping))
+                .configure_user(user, dsso_mapping))
 
-            user.email = sso_mapping.get('email', '')
+            user.email = dsso_mapping.get('email', '')
             is_superuser = (
-                sso_mapping.get('is_superuser') in ('True', 'true', '1'))
+                dsso_mapping.get('is_superuser') in ('True', 'true', '1'))
             user.is_staff = is_superuser
             user.is_superuser = is_superuser
 
@@ -54,5 +54,5 @@ Example usage:
     MIDDLEWARE_CLASSES += (
         'kleides_dssoclient.middleware.DssoLoginMiddleware',
     )
-    KLEIDES_DSSOCLIENT_ENDPOINT = 'https://SSO_SERVER/sso/'
+    KLEIDES_DSSOCLIENT_ENDPOINT = 'https://DSSOSERVER/sso/'
     KLEIDES_DSSOCLIENT_SHARED_KEY = 'oh-sso-very-very-secret'

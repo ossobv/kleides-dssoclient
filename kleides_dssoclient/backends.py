@@ -17,9 +17,9 @@ class DssoLoginBackend(ModelBackend):
     # Create a User object if not already in the database?
     create_unknown_user = True
 
-    def authenticate(self, sso_mapping):
+    def authenticate(self, dsso_mapping):
         """
-        The username passed in the ``sso_mapping`` dict is considered
+        The username passed in the ``dsso_mapping`` dict is considered
         trusted. This method simply returns the ``User`` object with
         the given username, creating a new ``User`` object if
         ``create_unknown_user`` is ``True``.
@@ -28,11 +28,11 @@ class DssoLoginBackend(ModelBackend):
         ``User`` object with the given username is not found in the
         database.
         """
-        if not sso_mapping or not sso_mapping.get('username'):
+        if not dsso_mapping or not dsso_mapping.get('username'):
             return
 
         user = None
-        username = sso_mapping['username']
+        username = dsso_mapping['username']
         UserModel = get_user_model()
 
         # Note that this could be accomplished in one try-except clause,
@@ -43,7 +43,7 @@ class DssoLoginBackend(ModelBackend):
                 UserModel.USERNAME_FIELD: username
             })
             if created:
-                user = self.configure_user(user, sso_mapping)
+                user = self.configure_user(user, dsso_mapping)
         else:
             try:
                 user = UserModel._default_manager.get_by_natural_key(username)
@@ -52,7 +52,7 @@ class DssoLoginBackend(ModelBackend):
 
         return user
 
-    def configure_user(self, user, sso_mapping):
+    def configure_user(self, user, dsso_mapping):
         """
         Configures a user after creation and returns the updated user.
 

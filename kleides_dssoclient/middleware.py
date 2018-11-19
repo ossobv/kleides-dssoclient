@@ -16,7 +16,7 @@ class DssoLoginMiddleware(object):
 
     If request.user is not authenticated, then this middleware attempts
     to redirect the user to the ``KLEIDES_DSSO_ENDPOINT``. The user
-    should then be redirected back here with sso credentials in the URL.
+    should then be redirected back here with SSO credentials in the URL.
     If the user is flagges as is_superuser, he is auto-created and
     peristed in the session.
     """
@@ -44,15 +44,15 @@ class DssoLoginMiddleware(object):
         # So, we're seeing this user for the first or second time,
         # depending on the query_string.
         if not ('sso' in request.GET and 'sig' in request.GET):
-            return self.redirect_to_sso_endpoint(request)
+            return self.redirect_to_dsso_endpoint(request)
         elif 'kleides_dsso_nonce' in request.session:
-            return self.return_from_sso_endpoint(request)
+            return self.return_from_dsso_endpoint(request)
 
         # This is bad..? Session not saved?
         raise SuspiciousOperation(
             'Session data corrupt? Or user playing around?')
 
-    def redirect_to_sso_endpoint(self, request):
+    def redirect_to_dsso_endpoint(self, request):
         # Construct nonce by using timestamp and a bit of random junk.
         nonce = '{}-{}'.format(int(time.time()), random.random())
         return_url = request.build_absolute_uri()
@@ -70,7 +70,7 @@ class DssoLoginMiddleware(object):
 
         return HttpResponseRedirect(uri)
 
-    def return_from_sso_endpoint(self, request):
+    def return_from_dsso_endpoint(self, request):
         sso_nonce = request.session.pop('kleides_dsso_nonce')
         sso_time, sso_rand = sso_nonce.split('-', 1)
         if (time.time() - int(sso_time)) > 60:
@@ -84,7 +84,7 @@ class DssoLoginMiddleware(object):
         except ValueError as e:
             raise PermissionDenied(str(e))
 
-        user = auth.authenticate(sso_mapping=mapping)
+        user = auth.authenticate(dsso_mapping=mapping)
         if not user:
             raise PermissionDenied('not for you')
 
