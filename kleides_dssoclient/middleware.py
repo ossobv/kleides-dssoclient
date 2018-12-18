@@ -1,16 +1,22 @@
 import random
 import time
 
+import django
 from django.conf import settings
 from django.contrib import auth
 from django.core.exceptions import (
     ImproperlyConfigured, PermissionDenied, SuspiciousOperation)
 from django.http import HttpResponseRedirect
+try:
+    from django.utils.deprecation import MiddlewareMixin
+except ImportError:
+    MiddlewareMixin = object
+
 
 from .dssoclient import DssoClientDecoder, DssoClientEncoder
 
 
-class DssoLoginMiddleware(object):
+class DssoLoginMiddleware(MiddlewareMixin):
     """
     Middleware for utilizing DSSO-provided authentication.
 
@@ -31,7 +37,8 @@ class DssoLoginMiddleware(object):
                 " before the DssoLoginMiddleware class.")
 
         # The user is already authenticated? Nothing to do.
-        if request.user.is_authenticated():
+        if (request.user.is_authenticated if django.VERSION >= (1, 10)
+                else request.user.is_authenticated()):
             return
 
         if not (settings.KLEIDES_DSSO_ENDPOINT and
