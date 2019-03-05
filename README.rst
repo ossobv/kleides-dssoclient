@@ -54,5 +54,5 @@ Example usage:
     MIDDLEWARE_CLASSES += (
         'kleides_dssoclient.middleware.DssoLoginMiddleware',
     )
-    KLEIDES_DSSOCLIENT_ENDPOINT = 'https://DSSOSERVER/sso/'
-    KLEIDES_DSSOCLIENT_SHARED_KEY = 'oh-sso-very-very-secret'
+    KLEIDES_DSSO_ENDPOINT = 'https://DSSOSERVER/sso/'
+    KLEIDES_DSSO_SHARED_KEY = 'oh-sso-very-very-secret'
