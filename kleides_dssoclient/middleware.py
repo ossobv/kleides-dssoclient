@@ -61,7 +61,7 @@ class DssoLoginMiddleware(MiddlewareMixin):
 
         # This is bad..? Session not saved? Or an error during processing?
         # Shouldn't redirect because that may start a loop if the failure
-        # is persistant.
+        # is persistent.
         raise SuspiciousOperation(
             'Session data corrupt? Or user playing around?')
 
@@ -90,7 +90,7 @@ class DssoLoginMiddleware(MiddlewareMixin):
         log.debug('Returned from DSSO endpoint with nonce: %r', sso_nonce)
         sso_time, sso_rand = sso_nonce.split('-', 1)
         if (time.time() - int(sso_time)) > 60:
-            log.debug('stale kleides_dsso_nonce in session')
+            log.debug('Stale kleides_dsso_nonce in session')
             raise PermissionDenied('stale kleides_dsso_nonce in session')
 
         try:
