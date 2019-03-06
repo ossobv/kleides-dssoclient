@@ -1,6 +1,12 @@
 Changes
 -------
 
+v0.5 - *2019-03-06*
+~~~~~~~~~~~~~~~~~~~
+
+- Add logging to help investigate problems.
+
+
 v0.3 - *2018-12-18*
 ~~~~~~~~~~~~~~~~~~~
 
