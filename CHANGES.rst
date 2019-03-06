@@ -1,6 +1,11 @@
 Changes
 -------
 
+v0.6 - *2019-03-06*
+~~~~~~~~~~~~~~~~~~~
+
+- Add ``request`` arg to ``DssoLoginBackend`` for Django 2.1.
+
 v0.5 - *2019-03-06*
 ~~~~~~~~~~~~~~~~~~~
 

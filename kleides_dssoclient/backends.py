@@ -17,7 +17,7 @@ class DssoLoginBackend(ModelBackend):
     # Create a User object if not already in the database?
     create_unknown_user = True
 
-    def authenticate(self, dsso_mapping):
+    def authenticate(self, request=None, dsso_mapping=None):
         """
         The username passed in the ``dsso_mapping`` dict is considered
         trusted. This method simply returns the ``User`` object with
