@@ -6,7 +6,8 @@ import django
 from django.conf import settings
 from django.contrib import auth
 from django.core.exceptions import (
-    ImproperlyConfigured, PermissionDenied, SuspiciousOperation)
+    ImproperlyConfigured, MiddlewareNotUsed, PermissionDenied,
+    SuspiciousOperation)
 from django.http import HttpResponseRedirect
 try:
     from django.utils.deprecation import MiddlewareMixin
@@ -29,6 +30,12 @@ class DssoLoginMiddleware(MiddlewareMixin):
     If the user is flagges as is_superuser, he is auto-created and
     peristed in the session.
     """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if not getattr(settings, 'KLEIDES_DSSO_ENDPOINT'):
+            raise MiddlewareNotUsed()
+
     def process_request(self, request):
         # AuthenticationMiddleware is required so that request.user exists.
         if not hasattr(request, 'user'):
