@@ -1,10 +1,17 @@
 Changes
 -------
 
+v0.7 - *2019-07-16*
+~~~~~~~~~~~~~~~~~~~
+
+- Allow bypassing the middleware by setting KLEIDES_DSSO_ENDPOINT to None.
+
+
 v0.6 - *2019-03-06*
 ~~~~~~~~~~~~~~~~~~~
 
 - Add ``request`` arg to ``DssoLoginBackend`` for Django 2.1.
+
 
 v0.5 - *2019-03-06*
 ~~~~~~~~~~~~~~~~~~~
