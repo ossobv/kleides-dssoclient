@@ -1,5 +1,5 @@
-Kleides Discourse SSO client
-============================
+|KLEIDES| Kleides Discourse SSO client
+======================================
 
 *Discourse Single-Sign-on (DSSO) provider client* to connect your
 *Django* project to a *Discourse Single-Sign-On provider server*.
@@ -56,3 +56,7 @@ Example usage:
     )
     KLEIDES_DSSO_ENDPOINT = 'https://DSSOSERVER/sso/'
     KLEIDES_DSSO_SHARED_KEY = 'oh-sso-very-very-secret'
+
+
+.. |KLEIDES| image:: assets/kleides-icon.png
+    :alt: Kleides
