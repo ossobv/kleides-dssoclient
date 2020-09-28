@@ -1,9 +1,9 @@
 from django.contrib.auth.backends import ModelBackend, get_user_model
 
 
-class DssoLoginBackend(ModelBackend):
+class DssoLoginBackendMixin:
     """
-    This backend is to be used in conjunction with the
+    This backend mixin is to be used in conjunction with the
     ``DssoLoginMiddleware`` found in the middleware module of this
     package, and is used when the server is handling authentication
     through a Discourse Single-Sign-On (DSSO) endpoint.
@@ -59,3 +59,7 @@ class DssoLoginBackend(ModelBackend):
         By default, returns the user unmodified.
         """
         return user
+
+
+class DssoLoginBackend(DssoLoginBackendMixin, ModelBackend):
+    pass
