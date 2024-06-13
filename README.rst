@@ -56,6 +56,7 @@ Example usage:
     )
     KLEIDES_DSSO_ENDPOINT = 'https://DSSOSERVER/sso/'
     KLEIDES_DSSO_SHARED_KEY = 'oh-sso-very-very-secret'
+    KLEIDES_DSSO_CREATE_UNKNOWN_USER = True
 
 
 .. |KLEIDES| image:: assets/kleides-icon.png

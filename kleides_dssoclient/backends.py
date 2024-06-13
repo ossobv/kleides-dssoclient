@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.backends import ModelBackend, get_user_model
 
 
@@ -13,9 +14,10 @@ class DssoLoginBackendMixin:
     disable this behavior by setting the ``create_unknown_user``
     attribute to ``False``.
     """
-
-    # Create a User object if not already in the database?
-    create_unknown_user = True
+    @property
+    def create_unknown_user(self):
+        # Create a User object if not already in the database?
+        return getattr(settings, 'KLEIDES_DSSO_CREATE_UNKNOWN_USER', True)
 
     def authenticate(self, request=None, dsso_mapping=None):
         """
