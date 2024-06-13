@@ -13,6 +13,7 @@ try:
     from django.utils.deprecation import MiddlewareMixin
 except ImportError:
     MiddlewareMixin = object
+from django.utils.encoding import escape_uri_path
 
 from .dssoclient import DssoClientDecoder, DssoClientEncoder
 
@@ -119,3 +120,17 @@ class DssoLoginMiddleware(MiddlewareMixin):
         request.user = user
         auth.login(request, user)
         log.debug('Logged in %r using kleides_dssoclient', user)
+        return HttpResponseRedirect(self.get_redirect_url(request))
+
+    def get_redirect_url(self, request):
+        '''
+        Return the request url without dsso params.
+        '''
+        if len(request.GET) > 2:
+            query = request.GET.copy()
+            query.pop('sso')
+            query.pop('sig')
+            query_string = '?' + query.urlencode()
+        else:
+            query_string = ''
+        return escape_uri_path(request.path) + query_string
