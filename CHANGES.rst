@@ -1,6 +1,12 @@
 Changes
 -------
 
+v0.9 - *2024-06-13*
+~~~~~~~~~~~~~~~~~~~
+
+- Add setting for automatic user creation.
+- Remove dsso parameters from the return url.
+
 v0.8 - *2020-09-28*
 ~~~~~~~~~~~~~~~~~~~
 
